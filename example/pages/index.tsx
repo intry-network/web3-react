@@ -8,6 +8,7 @@ import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } fro
 import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from '@web3-react/frame-connector'
 import { Web3Provider } from '@ethersproject/providers'
 import { formatEther } from '@ethersproject/units'
+import { IntryConnector } from "@web3-react/intry-connector"
 
 import { useEagerConnect, useInactiveListener } from '../hooks'
 import {
@@ -40,7 +41,8 @@ enum ConnectorNames {
   Fortmatic = 'Fortmatic',
   Magic = 'Magic',
   Portis = 'Portis',
-  Torus = 'Torus'
+  Torus = 'Torus',
+  Intry = 'Intry',
 }
 
 const connectorsByName: { [connectorName in ConnectorNames]: any } = {
@@ -56,7 +58,8 @@ const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Fortmatic]: fortmatic,
   [ConnectorNames.Magic]: magic,
   [ConnectorNames.Portis]: portis,
-  [ConnectorNames.Torus]: torus
+  [ConnectorNames.Torus]: torus,
+  [ConnectorNames.Intry]: new IntryConnector(),
 }
 
 function getErrorMessage(error: Error) {
@@ -184,7 +187,7 @@ function Balance() {
             setBalance(balance)
           }
         })
-        .catch(() => {
+        .catch((error) => {
           if (!stale) {
             setBalance(null)
           }
@@ -245,12 +248,6 @@ function App() {
     }
   }, [activatingConnector, connector])
 
-  // handle logic to eagerly connect to the injected ethereum provider, if it exists and has granted access already
-  const triedEager = useEagerConnect()
-
-  // handle logic to connect in reaction to certain events on the injected ethereum provider, if it exists
-  useInactiveListener(!triedEager || !!activatingConnector)
-
   return (
     <>
       <Header />
@@ -268,7 +265,7 @@ function App() {
           const currentConnector = connectorsByName[name]
           const activating = currentConnector === activatingConnector
           const connected = currentConnector === connector
-          const disabled = !triedEager || !!activatingConnector || connected || !!error
+          const disabled = !!activatingConnector || connected || !!error
 
           return (
             <button
@@ -325,6 +322,7 @@ function App() {
               cursor: 'pointer'
             }}
             onClick={() => {
+              console.log("ON CLICK CALLED");
               deactivate()
             }}
           >
