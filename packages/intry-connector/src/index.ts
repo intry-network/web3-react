@@ -1,7 +1,7 @@
 import { ConnectorUpdate } from '@web3-react/types'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import warning from 'tiny-warning'
-import IntrySdk, { IntryInitOptions } from "@intry/sdk"
+import { IntryInitOptions } from "@intry/sdk"
 
 import { SendReturnResult, SendReturn } from './types'
 
@@ -22,21 +22,31 @@ export class IntryConnector extends AbstractConnector {
 
   initOptions: IntryInitOptions;
 
-  constructor(_initOptions: IntryInitOptions) {
+  constructor(_initOptions: IntryInitOptions = {}, initializeImmediately: boolean = false) {
     super({ supportedChainIds: [137] })
 
-    this.initOptions = _initOptions
-    this.intrySdk = new IntrySdk();
+    this.initOptions = _initOptions;
+    if (initializeImmediately) {
+        this.init();
+    }
+  }
+
+  public async init(): Promise<void> {
+      const IntrySdk = await import('@intry/sdk').then(m => m?.default ?? m);
+      if (!this.intrySdk) {
+          this.intrySdk = new IntrySdk();
+          await this.intrySdk.init(this.initOptions);
+      }
   }
 
   public async activate(): Promise<ConnectorUpdate> {
-    if (!this.intrySdk.initialized) {
-        await this.intrySdk.init(this.initOptions);
+    if (!this.intrySdk || !this.intrySdk.initialized) {
+        await this.init();
     }
 
     let account
     try {
-      account = await this.intrySdk.enable().then(
+      account = await this.intrySdk.request({ method: 'eth_requestAccounts' }).then(
         (sendReturn: any) => parseSendReturn(sendReturn)[0]
       )
     } catch (error) {
@@ -46,13 +56,10 @@ export class IntryConnector extends AbstractConnector {
       warning(false, 'eth_requestAccounts was unsuccessful, falling back to enable')
     }
 
-    console.log({ account });
-
     return { provider: this.intrySdk, ...(account ? { account } : {}) }
   }
 
   public async getProvider(): Promise<any> {
-    console.log("GET PROVIDER CALLED");
     return this.intrySdk;
   }
 
@@ -61,7 +68,6 @@ export class IntryConnector extends AbstractConnector {
     try {
       chainId = await this.intrySdk.request({ method: 'eth_chainId' }).then(parseSendReturn)
     } catch (e) {
-      console.log("ETH CHAIN ID UNSUCCESSFUL", e);
       warning(false, 'eth_chainId was unsuccessful, falling back to net_version')
     }
 
@@ -80,7 +86,6 @@ export class IntryConnector extends AbstractConnector {
         warning(false, 'net_version v2 was unsuccessful, falling back to manual matches and static properties')
       }
     }
-    console.log("CHAIN ID", chainId)
 
     return chainId
   }
@@ -89,23 +94,13 @@ export class IntryConnector extends AbstractConnector {
     let account
     try {
       account = await this.intrySdk.request({ method: 'eth_accounts' }).then((sendReturn: any) => parseSendReturn(sendReturn)[0])
-    } catch {
+    } catch (e) {
       warning(false, 'eth_accounts was unsuccessful, falling back to enable')
     }
 
     if (!account) {
-      try {
-        account = await this.intrySdk.enable().then((sendReturn: any) => parseSendReturn(sendReturn)[0])
-      } catch {
-        warning(false, 'enable was unsuccessful, falling back to eth_accounts v2')
-      }
+      account = parseSendReturn(await this.intrySdk.request({ method: 'eth_accounts' }))[0]
     }
-
-    if (!account) {
-      account = parseSendReturn(this.intrySdk.request({ method: 'eth_accounts' }))[0]
-    }
-
-    console.log("ACCOUNT: ", account)
 
     return account
   }
