@@ -8,7 +8,7 @@ import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } fro
 import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from '@web3-react/frame-connector'
 import { Web3Provider } from '@ethersproject/providers'
 import { formatEther } from '@ethersproject/units'
-import { IntryConnector } from "@web3-react/intry-connector"
+import { IntryConnector } from "@intry/web3-intry-connector"
 
 import { useEagerConnect, useInactiveListener } from '../hooks'
 import {
@@ -322,7 +322,6 @@ function App() {
               cursor: 'pointer'
             }}
             onClick={() => {
-              console.log("ON CLICK CALLED");
               deactivate()
             }}
           >
