@@ -91,16 +91,7 @@ export class IntryConnector extends AbstractConnector {
   }
 
   public async getAccount(): Promise<null | string> {
-    let account
-    try {
-      account = await this.intrySdk.request({ method: 'eth_accounts' }).then((sendReturn: any) => parseSendReturn(sendReturn)[0])
-    } catch (e) {
-      warning(false, 'eth_accounts was unsuccessful, falling back to enable')
-    }
-
-    if (!account) {
-      account = parseSendReturn(await this.intrySdk.request({ method: 'eth_accounts' }))[0]
-    }
+    const account = await this.intrySdk.request({ method: 'eth_accounts' }).then((sendReturn: any) => parseSendReturn(sendReturn)[0])
 
     return account
   }
