@@ -110,6 +110,10 @@ export class IntryConnector extends AbstractConnector {
     // this.intrySdk.closeAndRemove();
   }
 
+  public close() {
+      this.intrySdk.close();
+  }
+
   public async isAuthorized(): Promise<boolean> {
     try {
       return await this.intrySdk.request({ method: 'eth_accounts' }).then((sendReturn: any) => {
