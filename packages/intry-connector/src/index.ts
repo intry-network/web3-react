@@ -53,8 +53,9 @@ export class IntryConnector extends AbstractConnector {
       if ((error as any).code === 4001) {
         throw new UserRejectedRequestError()
       }
-      warning(false, 'eth_requestAccounts was unsuccessful, falling back to enable')
-    }
+
+      throw error;
+  }
 
     return { provider: this.intrySdk, ...(account ? { account } : {}) }
   }
