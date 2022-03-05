@@ -422,15 +422,12 @@ function App() {
                     // attachedMoneyInEth: 4.2,
                     from: {
                       name: 'Cow',
-                      // wallet: '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
                       wallet: '0x3F140cd198180BA82E3F99cD701940E56aDf0707',
                     },
-                    to: [
-                      {
-                        name: 'Bob',
-                        wallet: '0x3F140cd198180BA82E3F99cD701940E56aDf0707',
-                      },
-                    ],
+                    to: {
+                      name: 'Bob',
+                      wallet: '0x3F140cd198180BA82E3F99cD701940E56aDf0707',
+                    },
                   }
                 )
                 .then((signature: any) => {
