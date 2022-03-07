@@ -55,7 +55,7 @@ export class IntryConnector extends AbstractConnector {
       }
 
       throw error;
-  }
+    }
 
     return { provider: this.intrySdk, ...(account ? { account } : {}) }
   }
