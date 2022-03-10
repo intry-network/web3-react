@@ -937,11 +937,6 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@intry/sdk@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@intry/sdk/-/sdk-0.0.4.tgz#58dcbef84163c9869e3405ba1e8c4812f96052c1"
-  integrity sha512-tdj0A3U+O1eE/Sq7YfHwUfyPuNtbPAuIdY1jTq0wyMJhbQf4CuMwyJ9ym9TQxRKxbQpxcU+D8zbtlX0Qfq1/JQ==
-
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"

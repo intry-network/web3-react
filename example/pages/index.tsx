@@ -59,7 +59,7 @@ const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Magic]: magic,
   [ConnectorNames.Portis]: portis,
   [ConnectorNames.Torus]: torus,
-  [ConnectorNames.Intry]: new IntryConnector(),
+  [ConnectorNames.Intry]: new IntryConnector({ showExternalWallets: true }),
 }
 
 function getErrorMessage(error: Error) {

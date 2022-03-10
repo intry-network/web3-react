@@ -29,20 +29,25 @@ export class IntryConnector extends AbstractConnector {
     if (initializeImmediately) {
         this.init();
     }
+
+    this.handleNetworkChanged = this.handleNetworkChanged.bind(this)
+    this.handleChainChanged = this.handleChainChanged.bind(this)
+    this.handleAccountsChanged = this.handleAccountsChanged.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   public async init(): Promise<void> {
-      const IntrySdk = await import('@intry/sdk').then(m => m?.default ?? m);
       if (!this.intrySdk) {
-          this.intrySdk = new IntrySdk();
-          await this.intrySdk.init(this.initOptions);
+          const IntrySdk = await import('@intry/sdk').then(m => m?.default ?? m);
+          this.intrySdk = new IntrySdk(this.initOptions);
+          await this.intrySdk.init();
       }
   }
 
   public async activate(): Promise<ConnectorUpdate> {
-    if (!this.intrySdk || !this.intrySdk.initialized) {
-        await this.init();
-    }
+    await this.init();
+
+    console.log("ACTIVATING");
 
     let account
     try {
@@ -55,6 +60,13 @@ export class IntryConnector extends AbstractConnector {
       }
 
       throw error;
+    }
+
+    if (this.intrySdk.isUsingMetamask && window.ethereum.on) {
+      window.ethereum.on('chainChanged', this.handleChainChanged)
+      window.ethereum.on('accountsChanged', this.handleAccountsChanged)
+      window.ethereum.on('close', this.handleClose)
+      window.ethereum.on('networkChanged', this.handleNetworkChanged)
     }
 
     return { provider: this.intrySdk, ...(account ? { account } : {}) }
@@ -99,7 +111,15 @@ export class IntryConnector extends AbstractConnector {
 
   public deactivate() {
     this.intrySdk.close();
-    // this.intrySdk.closeAndRemove();
+
+    if (this.intrySdk.isUsingMetamask && window.ethereum && window.ethereum.removeListener) {
+      this.intrySdk.isUsingMetamask = false;
+
+      window.ethereum.removeListener('chainChanged', this.handleChainChanged)
+      window.ethereum.removeListener('accountsChanged', this.handleAccountsChanged)
+      window.ethereum.removeListener('close', this.handleClose)
+      window.ethereum.removeListener('networkChanged', this.handleNetworkChanged)
+    }
   }
 
   public close() {
@@ -118,5 +138,25 @@ export class IntryConnector extends AbstractConnector {
     } catch {
       return false
     }
+  }
+
+  private handleChainChanged(chainId: string | number): void {
+    this.emitUpdate({ chainId, provider: window.ethereum })
+  }
+
+  private handleAccountsChanged(accounts: string[]): void {
+    if (accounts.length === 0) {
+      this.emitDeactivate()
+    } else {
+      this.emitUpdate({ account: accounts[0] })
+    }
+  }
+
+  private handleClose(_code: number, _reason: string): void {
+    this.emitDeactivate()
+  }
+
+  private handleNetworkChanged(networkId: string | number): void {
+    this.emitUpdate({ chainId: networkId, provider: window.ethereum })
   }
 }
