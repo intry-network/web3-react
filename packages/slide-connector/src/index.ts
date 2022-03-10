@@ -1,7 +1,7 @@
 import { ConnectorUpdate } from '@web3-react/types'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import warning from 'tiny-warning'
-import { SlideInitOptions } from "@slideweb3/sdk"
+import { SlideInitOptions } from "@slide-web3/sdk"
 
 import { SendReturnResult, SendReturn } from './types'
 
@@ -38,7 +38,7 @@ export class SlideConnector extends AbstractConnector {
 
   public async init(): Promise<void> {
       if (!this.slideSdk) {
-          const SlideSdk = await import('@slideweb3/sdk').then(m => m?.default ?? m);
+          const SlideSdk = await import('@slide-web3/sdk').then(m => m?.default ?? m);
           this.slideSdk = new SlideSdk(this.initOptions);
           await this.slideSdk.init();
       }
