@@ -1,5 +1,5 @@
 {
-  "name": "@slideweb3/web3-react-connector",
+  "name": "@slide-web3/web3-react-connector",
   "publishConfig": {
     "access": "public"
   },
