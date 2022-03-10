@@ -8,7 +8,7 @@ import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } fro
 import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from '@web3-react/frame-connector'
 import { Web3Provider } from '@ethersproject/providers'
 import { formatEther } from '@ethersproject/units'
-import { IntryConnector } from "@intry/web3-intry-connector"
+import { SlideConnector } from "@slideweb3/web3-react-connector"
 
 import { useEagerConnect, useInactiveListener } from '../hooks'
 import {
@@ -42,7 +42,7 @@ enum ConnectorNames {
   Magic = 'Magic',
   Portis = 'Portis',
   Torus = 'Torus',
-  Intry = 'Intry',
+  Slide = 'Slide',
 }
 
 const connectorsByName: { [connectorName in ConnectorNames]: any } = {
@@ -59,7 +59,7 @@ const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Magic]: magic,
   [ConnectorNames.Portis]: portis,
   [ConnectorNames.Torus]: torus,
-  [ConnectorNames.Intry]: new IntryConnector({ showExternalWallets: true }),
+  [ConnectorNames.Slide]: new SlideConnector({ showExternalWallets: true }),
 }
 
 function getErrorMessage(error: Error) {
