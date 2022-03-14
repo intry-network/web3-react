@@ -1185,10 +1185,10 @@
   dependencies:
     type-detect "4.0.8"
 
-"@slide-web3/sdk@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@slide-web3/sdk/-/sdk-0.0.1.tgz#f918848ab2d29c5b21c5613104fa333018538afb"
-  integrity sha512-NF/8drZmGFpZ8hcqHp0JBBcFjJQjUygqveQhKErOj8D/s38VYfBWUTPgVLAkHg/4tq2Z2BlXMdMF76047XSNKw==
+"@slide-web3/sdk@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@slide-web3/sdk/-/sdk-0.0.2.tgz#9447e65a77f0b88f723bbe9d2e7e932dc272165b"
+  integrity sha512-AI+2Jgd1Zned3SAYzLKyeerd7nB4lEGbg2V6FXbgEEvk9Wjm3YMcRY1JXE2+nv6S5mEpvzEN8Sfp+2kt5SDtRA==
 
 "@types/babel__core@^7.1.7":
   version "7.1.18"
