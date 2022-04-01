@@ -8,7 +8,7 @@ import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } fro
 import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from '@web3-react/frame-connector'
 import { Web3Provider } from '@ethersproject/providers'
 import { formatEther } from '@ethersproject/units'
-import { SlideConnector } from "@slideweb3/web3-react-connector"
+import { SlideConnector } from "@slide-web3/web3-react-connector"
 
 import { useEagerConnect, useInactiveListener } from '../hooks'
 import {
@@ -59,7 +59,7 @@ const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Magic]: magic,
   [ConnectorNames.Portis]: portis,
   [ConnectorNames.Torus]: torus,
-  [ConnectorNames.Slide]: new SlideConnector({ showExternalWallets: true }),
+  [ConnectorNames.Slide]: new SlideConnector({ slideBaseUrl: "http://localhost:4242", theme: { mode: "light", primaryColor: "#000", corners: "square" } }),
 }
 
 function getErrorMessage(error: Error) {
@@ -439,6 +439,25 @@ function App() {
             }}
           >
             Sign Typed Message
+          </button>
+        )}
+        {!!(library && account) && (
+          <button
+            style={{
+              height: '3rem',
+              borderRadius: '1rem',
+              cursor: 'pointer'
+            }}
+            onClick={() => {
+              connector.getProvider().then((provider) => {
+                console.log({ provider });
+                if (provider.isSlide) {
+                  provider.open();
+                }
+              })
+            }}
+          >
+            Open Slide
           </button>
         )}
         {!!(connector === connectorsByName[ConnectorNames.Network] && chainId) && (
