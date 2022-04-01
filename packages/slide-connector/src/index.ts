@@ -1,7 +1,7 @@
 import { ConnectorUpdate } from '@web3-react/types'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import warning from 'tiny-warning'
-import { SlideInitOptions } from "@slide-web3/sdk"
+import { SlideInitOptions, ThemeMode, CornerType, ETHEREUM_RPC_EVENTS } from "@slide-web3/sdk"
 
 import { SendReturnResult, SendReturn } from './types'
 
@@ -60,6 +60,8 @@ export class SlideConnector extends AbstractConnector {
       throw error;
     }
 
+    this.slideSdk.on(ETHEREUM_RPC_EVENTS.DISCONNECT, this.handleClose);
+
     if (this.slideSdk.isUsingMetamask && window.ethereum.on) {
       window.ethereum.on('chainChanged', this.handleChainChanged)
       window.ethereum.on('accountsChanged', this.handleAccountsChanged)
@@ -110,6 +112,8 @@ export class SlideConnector extends AbstractConnector {
   public deactivate() {
     this.slideSdk.close();
 
+    this.slideSdk.removeListener(ETHEREUM_RPC_EVENTS.DISCONNECT, this.handleClose);
+
     if (this.slideSdk.isUsingMetamask && window.ethereum && window.ethereum.removeListener) {
       this.slideSdk.isUsingMetamask = false;
 
@@ -157,4 +161,10 @@ export class SlideConnector extends AbstractConnector {
   private handleNetworkChanged(networkId: string | number): void {
     this.emitUpdate({ chainId: networkId, provider: window.ethereum })
   }
+}
+
+export {
+  SlideInitOptions,
+  ThemeMode,
+  CornerType,
 }
