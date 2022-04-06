@@ -350,9 +350,16 @@ function App() {
               borderRadius: '1rem',
               cursor: 'pointer'
             }}
-            onClick={() => {
+            onClick={async () => {
+              const provider = await connector.getProvider()
+
+              let _account = account;
+              if (provider.isSlide) {
+                _account = await provider.getEoaAddress();
+              }
+
               library
-                .getSigner(account)
+                .getSigner(_account)
                 .signMessage('👋')
                 .then((signature: any) => {
                   window.alert(`Success!\n\n${signature}`)
@@ -372,9 +379,16 @@ function App() {
               borderRadius: '1rem',
               cursor: 'pointer'
             }}
-            onClick={() => {
+            onClick={async () => {
+              const provider = await connector.getProvider()
+
+              let _account = account;
+              if (provider.isSlide) {
+                _account = await provider.getEoaAddress();
+              }
+
               library
-                .getSigner(account)
+                .getSigner(_account)
                 ._signTypedData(
                   {
                     // Defining the chain aka Rinkeby testnet or Ethereum Main Net
