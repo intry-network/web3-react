@@ -360,7 +360,7 @@ function App() {
               }
 
               library
-                .getSigner(_account)
+                .getSigner(account)
                 .signMessage('👋')
                 .then((signature: any) => {
                   window.alert(`Success!\n\n${signature}`)
@@ -390,7 +390,7 @@ function App() {
 
               const domain = {
                 // Defining the chain aka Rinkeby testnet or Ethereum Main Net
-                chainId: 1,
+                chainId: 137,
                 // Give a user friendly name to the specific contract you are signing for.
                 name: 'Ether Mail',
                 // If name isn't enough add verifying contract to make sure you are establishing contracts with the proper entity
@@ -445,7 +445,7 @@ function App() {
               }
 
               library
-                .getSigner(_account)
+                .getSigner(account)
                 ._signTypedData(
                   domain,
                   types,
@@ -454,15 +454,7 @@ function App() {
                 .then((signature: any) => {
                   const computedAddress = ethers.utils.verifyTypedData(domain, types, values, signature);
 
-                  const isExpectedAddress = computedAddress.toLowerCase() === _account.toLowerCase();
-
-                  console.log({ computedAddress, _account, isExpectedAddress });
-
-                  if (isExpectedAddress) {
-                    window.alert(`Success!\n\n${signature}`)
-                  } else {
-                    window.alert(`Failure: expected to recover ${_account} but recovered ${computedAddress} instead`)
-                  }
+                  window.alert(`Got the signature: ${signature}`);
                 })
                 .catch((error: any) => {
                   window.alert('Failure!' + (error && error.message ? `\n\n${error.message}` : ''))
