@@ -11,7 +11,6 @@ import { formatEther } from '@ethersproject/units'
 import { ethers } from "ethers";
 import { SlideConnector } from "@slide-web3/web3-react-connector"
 
-import { useEagerConnect, useInactiveListener } from '../hooks'
 import {
   injected,
   network,
@@ -417,6 +416,9 @@ function App() {
                   { name: 'from', type: 'Person' },
                   { name: 'to', type: 'Person' },
                   { name: 'contents', type: 'string' },
+                  { name: 'fromB', type: 'Person' },
+                  { name: 'toB', type: 'Person' },
+                  { name: 'contentsB', type: 'string' },
                 ],
                 // Not an EIP712Domain definition
                 Person: [
@@ -439,6 +441,16 @@ function App() {
                   wallet: '0x3F140cd198180BA82E3F99cD701940E56aDf0707',
                 },
                 to: {
+                  name: 'Bob',
+                  wallet: '0x3F140cd198180BA82E3F99cD701940E56aDf0707',
+                },
+                contentsB: 'Hello, Bob!',
+                // attachedMoneyInEth: 4.2,
+                fromB: {
+                  name: 'Cow',
+                  wallet: '0x3F140cd198180BA82E3F99cD701940E56aDf0707',
+                },
+                toB: {
                   name: 'Bob',
                   wallet: '0x3F140cd198180BA82E3F99cD701940E56aDf0707',
                 },

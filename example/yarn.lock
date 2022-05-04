@@ -1387,6 +1387,21 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
+"@slide-web3/sdk@^0.2.0-alpha.0":
+  version "0.2.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@slide-web3/sdk/-/sdk-0.2.0-alpha.1.tgz#dd3818f55a74dde2c4165653749ceff3b7cce236"
+  integrity sha512-e+IGvcR++9oF4G+gr35Z01WLjLY/LktBXuzJaFQ/l/CAVy5S0Hr3cqLdVD3+eomqY1Ut+GykJKWt/fI28nAHNQ==
+
+"@slide-web3/web3-react-connector@^6.1.1-alpha.0":
+  version "6.1.1-alpha.0"
+  resolved "https://registry.yarnpkg.com/@slide-web3/web3-react-connector/-/web3-react-connector-6.1.1-alpha.0.tgz#6d801f8608d8dd1bedcaf9420eeb6ef49e145a97"
+  integrity sha512-oWzcQyHHcwurfJvo2YMBUh5vo63/RhW2qzpYcpX9lT1GP1vjhaBLOJgKrGDbLUxRSz8pwfAwpYr1qCog8noePA==
+  dependencies:
+    "@slide-web3/sdk" "^0.2.0-alpha.0"
+    "@web3-react/abstract-connector" "^6.0.7"
+    "@web3-react/types" "^6.0.7"
+    tiny-warning "^1.0.3"
+
 "@szmarczak/http-timer@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@szmarczak/http-timer/-/http-timer-1.1.2.tgz#b1665e2c461a2cd92f4c1bbf50d5454de0d4b421"
