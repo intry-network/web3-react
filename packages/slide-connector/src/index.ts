@@ -22,11 +22,11 @@ export class SlideConnector extends AbstractConnector {
 
   initOptions: SlideInitOptions;
 
-  constructor(_initOptions: SlideInitOptions = {}, initializeImmediately: boolean = false) {
+  constructor(_initOptions: SlideInitOptions = {}, preloadSlide: boolean = false) {
     super({ supportedChainIds: [137] })
 
     this.initOptions = _initOptions;
-    if (initializeImmediately) {
+    if (preloadSlide) {
         this.init();
     }
 
@@ -40,7 +40,7 @@ export class SlideConnector extends AbstractConnector {
       if (!this.slideSdk) {
           const SlideSdk = await import('@slide-web3/sdk').then(m => m?.default ?? m);
           this.slideSdk = new SlideSdk(this.initOptions);
-          await this.slideSdk.init();
+          this.slideSdk.preload();
       }
   }
 
@@ -61,13 +61,6 @@ export class SlideConnector extends AbstractConnector {
     }
 
     this.slideSdk.on(ETHEREUM_RPC_EVENTS.DISCONNECT, this.handleClose);
-
-    if (this.slideSdk.isUsingMetamask && window.ethereum.on) {
-      window.ethereum.on('chainChanged', this.handleChainChanged)
-      window.ethereum.on('accountsChanged', this.handleAccountsChanged)
-      window.ethereum.on('close', this.handleClose)
-      window.ethereum.on('networkChanged', this.handleNetworkChanged)
-    }
 
     return { provider: this.slideSdk, ...(account ? { account } : {}) }
   }
@@ -113,15 +106,6 @@ export class SlideConnector extends AbstractConnector {
     this.slideSdk.close();
 
     this.slideSdk.removeListener(ETHEREUM_RPC_EVENTS.DISCONNECT, this.handleClose);
-
-    if (this.slideSdk.isUsingMetamask && window.ethereum && window.ethereum.removeListener) {
-      this.slideSdk.isUsingMetamask = false;
-
-      window.ethereum.removeListener('chainChanged', this.handleChainChanged)
-      window.ethereum.removeListener('accountsChanged', this.handleAccountsChanged)
-      window.ethereum.removeListener('close', this.handleClose)
-      window.ethereum.removeListener('networkChanged', this.handleNetworkChanged)
-    }
   }
 
   public close() {

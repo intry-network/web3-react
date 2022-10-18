@@ -1121,6 +1121,11 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
+"@noble/hashes@^1.1.2":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.1.3.tgz#360afc77610e0a61f3417e497dcf36862e4f8111"
+  integrity sha512-CE0FCR57H2acVI5UOzIGSSIYxZ6v/HOhDR0Ro9VLyhnzLwx0o8W1mmgaqlEUx4049qJDlIBRztv5k+MM8vbO3A==
+
 "@rollup/plugin-babel@^5.1.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-5.3.0.tgz#9cb1c5146ddd6a4968ad96f209c50c62f92f9879"
@@ -1185,10 +1190,13 @@
   dependencies:
     type-detect "4.0.8"
 
-"@slide-web3/sdk@^0.2.0-alpha.1":
-  version "0.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@slide-web3/sdk/-/sdk-0.2.0-alpha.1.tgz#dd3818f55a74dde2c4165653749ceff3b7cce236"
-  integrity sha512-e+IGvcR++9oF4G+gr35Z01WLjLY/LktBXuzJaFQ/l/CAVy5S0Hr3cqLdVD3+eomqY1Ut+GykJKWt/fI28nAHNQ==
+"@slide-web3/sdk@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@slide-web3/sdk/-/sdk-0.5.0.tgz#adced45fe65058aa5270e6b430a9109713b76bb1"
+  integrity sha512-eYvZrsXrQfluGVD2fZHafraMHxreBJ21X4oFsUXkbybVWfNUma6+L/QL6kty5Z4yEcRkc3kKziUv6hrEyRJhog==
+  dependencies:
+    "@noble/hashes" "^1.1.2"
+    auto-bind "^5.0.1"
 
 "@types/babel__core@^7.1.7":
   version "7.1.18"
@@ -1602,6 +1610,11 @@ atob@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
+
+auto-bind@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/auto-bind/-/auto-bind-5.0.1.tgz#50d8e63ea5a1dddcb5e5e36451c1a8266ffbb2ae"
+  integrity sha512-ooviqdwwgfIfNmDwo94wlshcdzfO64XV0Cg6oDsDYBJfITDz1EngD2z7DkbvCWn+XIMsIqW27sEVF6qcpJrRcg==
 
 aws-sign2@~0.7.0:
   version "0.7.0"

@@ -485,7 +485,6 @@ function App() {
             }}
             onClick={() => {
               connector.getProvider().then((provider) => {
-                console.log({ provider });
                 if (provider.isSlide) {
                   provider.open();
                 }
